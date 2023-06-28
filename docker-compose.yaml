@@ -1,0 +1,6 @@
+version: "3.3"
+services:
+  sensor-things-webservice:
+    image: nhloc/sensor-things-webservice:latest
+    ports:
+      - "5000:5000"
