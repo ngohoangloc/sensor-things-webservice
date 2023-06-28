@@ -10,7 +10,7 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php:8.0-cli'
+                image 'php:8.0-apache'
                 args '-v /var/run/docker.sock:/var/run/docker.sock'
             }
         }
