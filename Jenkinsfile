@@ -1,6 +1,6 @@
 pipeline {
 
-  agent none
+  agent any
 
   environment {
     DOCKER_IMAGE = "nhloc/sensor-things-webservice"
@@ -10,8 +10,8 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php:8.0-fdm'
-                args '-u 0:0 -v /tmp:/root/.cache'
+                image 'php:8.0'
+                args '-u 0:0 -v /tmp:/root/.cache -v $HOME/.composer:/root/.composer'
             }
         }
         steps {
