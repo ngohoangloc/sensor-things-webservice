@@ -7,11 +7,17 @@ pipeline {
   }
 
   stages {
+    stage('Checkout') {
+        steps {
+            checkout scm
+        }
+    }
+
     stage('Test') {
         agent {
             docker {
-                image 'soifou/composer:php-8.0'
-                args '-v /var/run/docker.sock:/var/run/docker.sock'
+                image 'php:8.0-cli'
+                args '-v $HOME/.composer:/root/.composer'
             }
         }
         steps {
