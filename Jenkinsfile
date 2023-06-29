@@ -10,7 +10,7 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php:7.4-fpm'
+                image 'soifou/composer:php-8.0'
                 args '-v /var/run/docker.sock:/var/run/docker.sock'
             }
         }
