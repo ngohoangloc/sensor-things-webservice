@@ -10,11 +10,12 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php:8.1-cli'
+                image 'ubuntu:latest'
                 args '-u 0:0 -v /tmp:/root/.cache -v $HOME/.composer:/root/.composer'
             }
         }
         steps {
+            sh 'apt install php8.0-cli'
             sh 'composer install --no-interaction'
             sh 'vendor/bin/phpunit'
         }
