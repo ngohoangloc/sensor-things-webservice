@@ -10,7 +10,7 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php-8.0-cli'
+                image 'php:8.1-cli'
                 args '-u 0:0 -v /tmp:/root/.cache -v $HOME/.composer:/root/.composer'
             }
         }
