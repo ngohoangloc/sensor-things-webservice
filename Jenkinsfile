@@ -1,6 +1,6 @@
 pipeline {
 
-  agent none
+  agent any
 
   environment {
     DOCKER_IMAGE = "nhloc/sensor-things-webservice"
