@@ -17,7 +17,9 @@ pipeline {
         steps {
             sh 'apt update && apt install -y curl'
             sh 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
-            sh 'composer install --no-interaction'
+            sh 'composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader'
+            sh 'php artisan clear-compiled'
+            sh 'php artisan optimize'
             sh 'vendor/bin/phpunit'
         }
     }
