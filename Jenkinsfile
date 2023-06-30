@@ -10,8 +10,8 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php:8.0-cli'
-                args '-u 0:0 -v /tmp:/root/.cache -v $HOME/.composer:/root/.composer'
+                image 'php:7.4-fpm'
+                args '-u 0:0 -v /tmp:/root/.cache' // -v $HOME/.composer:/root/.composer
             }
         }
         steps {
