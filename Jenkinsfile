@@ -15,11 +15,17 @@ pipeline {
             }
         }
         steps {
-            sh 'apt update && apt install -y curl'
-            sh 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
+            // sh 'apt update && apt install -y curl'
+            // sh 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
+            // sh 'composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader'
+            // sh 'php artisan clear-compiled'
+            // sh 'php artisan optimize'
+            // sh 'vendor/bin/phpunit'
+
+            sh 'apt-get update && apt-get install -y wget zip unzip'
+            sh 'wget -O composer-setup.php https://getcomposer.org/installer'
+            sh 'php composer-setup.php --install-dir=/usr/local/bin --filename=composer'
             sh 'composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader'
-            sh 'php artisan clear-compiled'
-            sh 'php artisan optimize'
             sh 'vendor/bin/phpunit'
         }
     }
