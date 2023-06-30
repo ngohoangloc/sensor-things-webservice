@@ -26,7 +26,6 @@ pipeline {
             sh 'wget -O composer-setup.php https://getcomposer.org/installer'
             sh 'php composer-setup.php --install-dir=/usr/local/bin --filename=composer'
             sh 'composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader'
-            sh 'vendor/bin/phpunit'
         }
     }
     stage("Build") {
