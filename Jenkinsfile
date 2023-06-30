@@ -10,11 +10,13 @@ pipeline {
     stage('Test') {
         agent {
             docker {
-                image 'php:7.4-fpm'
-                args '-u 0:0 -v /tmp:/root/.cache' // -v $HOME/.composer:/root/.composer
+                image 'php:8.0-cli'
+                args '-u 0:0 -v /tmp:/root/.cache -v $HOME/.composer:/root/.composer'
             }
         }
         steps {
+            sh 'apt update && apt install -y curl'
+            sh 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
             sh 'composer install --no-interaction'
             sh 'vendor/bin/phpunit'
         }
