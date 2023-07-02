@@ -153,7 +153,6 @@ pipeline {
 
     environment {
         GIT_COMMIT_SHORT = "${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
-        DOCKERHUB_CREDENTIALS=credentials(docker_hub)
     }
 
     stages {
@@ -229,11 +228,15 @@ pipeline {
 
         stage('Push Docker Image') {
           steps {
-            withCredentials([string(credentialsId: 'docker_hub', variable: 'DOCKERHUB_TOKEN')]) {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh "docker push nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT}" ||
-                error("Failed to push Docker image")
-            }
+            withCredentials([usernamePassword(credentialsId: 'docker_hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            sh 'echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin'
+            sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            sh "docker push ${DOCKER_IMAGE}:latest"
+          }
+
+            //clean to save disk
+            sh "docker image rm ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            sh "docker image rm ${DOCKER_IMAGE}:latest"
           }
         }
 
