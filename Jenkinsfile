@@ -153,6 +153,7 @@ pipeline {
 
     environment {
         GIT_COMMIT_SHORT = "${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
+        DOCKER_IMAGE = "nhloc/sensor-things-webservice"
     }
 
     stages {
@@ -222,7 +223,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT} ."
+                sh "docker build -t ${DOCKER_IMAGE}:${env.GIT_COMMIT_SHORT} ."
             }
         }
 
