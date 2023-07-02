@@ -153,6 +153,7 @@ pipeline {
 
     environment {
         GIT_COMMIT_SHORT = "${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
+        registryCredential = 'docker_hub'
     }
 
     stages {
@@ -227,12 +228,15 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            steps {
-                withCredentials([string(credentialsId: 'docker_hub', variable: 'DOCKERHUB_TOKEN')]) {
-                    sh "echo '${DOCKERHUB_TOKEN}' | docker login -u nhloc --password-stdin"
-                    sh "docker push nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT}"
-                }
-            }
+          steps {
+            // withCredentials([string(credentialsId: 'docker_hub', variable: 'DOCKERHUB_TOKEN')]) {
+            //     sh "echo '${DOCKERHUB_TOKEN}' | docker login -u nhloc --password-stdin"
+            //     sh "docker push nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT}"
+            // }
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+            dockerImage.push('latest')
+          }
         }
 
         // stage('Deploy Laravel Application') {
