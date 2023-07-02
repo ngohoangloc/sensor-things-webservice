@@ -230,7 +230,7 @@ pipeline {
         stage('Push Docker Image') {
           steps {
             withCredentials([string(credentialsId: 'docker_hub', variable: 'DOCKERHUB_TOKEN')]) {
-                sh "echo $DOCKERHUB_TOKEN | docker login -u nhloc --password-stdin"
+                sh "echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_TOKEN_USR --password-stdin"
                 sh "docker push nhloc/sensor-things-webservice:$env.GIT_COMMIT_SHORT" ||
                 error("Failed to push Docker image")
             }
