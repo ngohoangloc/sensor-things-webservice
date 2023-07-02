@@ -154,6 +154,7 @@ pipeline {
     environment {
         GIT_COMMIT_SHORT = "${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
         DOCKER_IMAGE = "nhloc/sensor-things-webservice"
+        DOCKER_TAG = "${GIT_BRANCH.tokenize('/').pop()}-${GIT_COMMIT.substring(0,7)}"
     }
 
     stages {
