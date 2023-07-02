@@ -248,8 +248,11 @@ pipeline {
     }
 
     post {
-        failure {
-            // Configure notifications if required, e.g., email, Slack, etc.
-        }
-    }
+      success {
+        echo "SUCCESSFUL"
+      }
+      failure {
+        echo "FAILED"
+      }
+  }
 }
