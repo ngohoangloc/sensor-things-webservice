@@ -229,13 +229,11 @@ pipeline {
 
         stage('Push Docker Image') {
           steps {
-            // withCredentials([string(credentialsId: 'docker_hub', variable: 'DOCKERHUB_TOKEN')]) {
-            //     sh "echo '${DOCKERHUB_TOKEN}' | docker login -u nhloc --password-stdin"
-            //     sh "docker push nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT}"
-            // }
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-            dockerImage.push('latest')
+            withCredentials([string(credentialsId: 'docker_hub', variable: 'DOCKERHUB_TOKEN')]) {
+                sh "echo ${DOCKERHUB_TOKEN} | docker login -u nhloc --password-stdin"
+                sh "docker push nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT}" ||
+                error("Failed to push Docker image")
+            }
           }
         }
 
