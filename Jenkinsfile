@@ -245,16 +245,16 @@ pipeline {
           }
         }
 
-        // stage('Deploy Laravel Application') {
-        //     steps {
-        //         // Replace 'ssh-credentials-id' with your SSH credentials ID in Jenkins
-        //         sshagent(['ssh-credentials-id']) {
-        //             // Replace 'your-deployment-server' with your server's IP or domain
-        //             sh "ssh your-deployment-server 'docker pull nhloc/sensor-things-webservice:${env.GIT_COMMIT_SHORT}'"
-        //             sh "ssh your-deployment-server 'docker-compose down && docker-compose up -d --force-recreate'"
-        //         }
-        //     }
-        // }
+        stage('Deploy Laravel Application') {
+            steps {
+                // Replace 'ssh-credentials-id' with your SSH credentials ID in Jenkins
+                sshagent(['ssh-credentials-id']) {
+                    // Replace 'your-deployment-server' with your server's IP or domain
+                    sh "ssh 103.200.23.160 'docker pull ${DOCKER_IMAGE}:latest'"
+                    sh "ssh 103.200.23.160 'docker-compose down && docker-compose up -d --force-recreate'"
+                }
+            }
+        }
     }
 
     post {
