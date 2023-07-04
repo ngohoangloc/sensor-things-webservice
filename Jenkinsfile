@@ -185,7 +185,6 @@ pipeline {
               sh 'composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader'
               sh 'php artisan clear-compiled'
               sh 'php artisan optimize'
-              sh 'vendor/bin/phpunit'
           }
         }
 
