@@ -183,6 +183,9 @@ pipeline {
               sh 'wget -O composer-setup.php https://getcomposer.org/installer'
               sh 'php composer-setup.php --install-dir=/usr/local/bin --filename=composer'
               sh 'composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader'
+              sh 'php artisan clear-compiled'
+              sh 'php artisan optimize'
+              sh 'vendor/bin/phpunit'
           }
         }
 
@@ -244,17 +247,6 @@ pipeline {
             sh "docker image rm ${DOCKER_IMAGE}:latest"
           }
         }
-
-        // stage('Deploy Laravel Application') {
-        //     steps {
-        //         // Replace 'ssh-credentials-id' with your SSH credentials ID in Jenkins
-        //         sshagent(['ssh-credentials-id']) {
-        //             // Replace 'your-deployment-server' with your server's IP or domain
-        //             sh "ssh 103.200.23.160 'docker pull ${DOCKER_IMAGE}:latest'"
-        //             sh "ssh 103.200.23.160 'docker-compose down && docker-compose up -d --force-recreate'"
-        //         }
-        //     }
-        // }
     }
 
     post {
